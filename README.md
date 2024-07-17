@@ -17,7 +17,7 @@ A Chrome Extension that keeps track of the time you spend on various websites, e
 * In order to start the api
 * Open a python IDE
 * Go to terminal and execute the command
-* `uvicorn app.main:app --reload`
+ `uvicorn app.main:app --reload`
   
 
 
