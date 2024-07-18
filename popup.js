@@ -284,7 +284,8 @@ function secondsToString(seconds) {
       })
 
 
-      document.getElementById("sendSubmit").addEventListener('click',function(){
+      document.getElementById("sendSubmit").addEventListener('click', function() {
+        document.getElementById("toto1").innerHTML = "Email sent successfully";
         let email = document.getElementById("email").value;
         let websitename=dataLabels;
         let webtime=dataSet; 
@@ -294,11 +295,27 @@ function secondsToString(seconds) {
               dictionarydata[websitename[i]] = webtime[i];
           }
           let jsondata=JSON.stringify(dictionarydata);
-          
-
-
-        
-      })
+    
+        fetch('http://127.0.0.1:8000/mail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Head: 'This is your todays Web usage',
+                Body: jsondata,
+                email: email
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error(`There was a problem with the fetch operation:, ${error}`);
+        });
+    });
+    
 
         
         
@@ -490,9 +507,9 @@ function secondsToString(seconds) {
           let categoryData = Object.values(categoryTime);
           let categoryColors = categoryLabels.map((_, index) => color[index % color.length]);
 
-          //if (document.getElementById("category-day-chart").dataset.chartInstance) {
-          //  document.getElementById("category-day-chart").dataset.chartInstance.destroy();
-          //}
+          if (document.getElementById("category-day-chart").dataset.chartInstance) {
+            document.getElementById("category-day-chart").dataset.chartInstance.destroy();
+          }
 
           let dayCategoryChart = new Chart(document.getElementById("category-day-chart"), {
             type: 'bar',
@@ -610,8 +627,12 @@ function secondsToString(seconds) {
       });
 
       document.getElementById("weekAvg").innerText = secondsToString((totalWeekTime / noOfDays).toFixed(2))+"hours";
-      document.getElementById("weekMax").innerText = secondsToString(maxTime) + " on " + maxDate;
+      document.getElementById("weekMax").innerText = secondsToString((maxTime).toFixed(2)) + " on " + maxDate;
     });
   });
 
-
+document.getElementById("emailSubmit").addEventListener('click',function(){
+  let email = document.getElementById("email").value;
+  document.getElementById("toto").innerHTML=email;
+  
+})
