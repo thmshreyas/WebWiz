@@ -277,6 +277,28 @@ function secondsToString(seconds) {
         let newsss=Object.keys(categoryTime);
         let newsss1=Object.values(categoryTime);
       //  document.getElementById("hi").innerHTML=newsss1;
+      document.getElementById("emailSubmit").addEventListener('click',function(){
+        let email = document.getElementById("email").value;
+        document.getElementById("toto").innerHTML=email;
+        
+      })
+
+
+      document.getElementById("sendSubmit").addEventListener('click',function(){
+        let email = document.getElementById("email").value;
+        let websitename=dataLabels;
+        let webtime=dataSet; 
+        let dictionarydata={};
+        
+          for (let i = 0; i < websitename.length; i++) {
+              dictionarydata[websitename[i]] = webtime[i];
+          }
+          let jsondata=JSON.stringify(dictionarydata);
+          
+
+
+        
+      })
 
         
         
@@ -413,7 +435,8 @@ function secondsToString(seconds) {
               categoryTime[category] = times[i];
             }
           }
-
+          let newsss=Object.keys(categoryTime);
+          let newsss1=Object.values(categoryTime);
           let chartTitle = "Top Visited Sites on " + givenDate;
           if (dateChart) {
             dateChart.destroy();
@@ -474,11 +497,11 @@ function secondsToString(seconds) {
           let dayCategoryChart = new Chart(document.getElementById("category-day-chart"), {
             type: 'bar',
             data: {
-              labels: categoryLabels,
+              labels: newsss,
               datasets: [{
                 label: "Time Spent by Category",
-                backgroundColor: categoryColors,
-                data: categoryData
+                backgroundColor: color,
+                data: newsss1
               }]
             },
             options: {
@@ -545,13 +568,16 @@ function secondsToString(seconds) {
 
       for (let i = 0; i < noOfDays; i++) {
         let date = datesList[datesList.length - 1 - i];
-        let totalTime = getDateTotalTime(storedItems, date);
+        let totalTime = getDateTotalTime(storedItems, date)/3600;
         totalWeekTime += totalTime;
+        
         if (totalTime > maxTime) {
           maxTime = totalTime;
+
           maxDate = date;
         }
         timeEachDay.push(totalTime);
+        
         dateLabels.push(date);
       }
 
@@ -560,7 +586,7 @@ function secondsToString(seconds) {
         data: {
           labels: dateLabels,
           datasets: [{
-            label: "Time Spent (seconds)",
+            label: "Time Spent (Hours)",
             backgroundColor: "#2a9d8f",
             data: timeEachDay
           }]
@@ -583,8 +609,13 @@ function secondsToString(seconds) {
         }
       });
 
-      document.getElementById("weekAvg").innerText = secondsToString(totalWeekTime / noOfDays);
+      document.getElementById("weekAvg").innerText = secondsToString((totalWeekTime / noOfDays).toFixed(2))+"hours";
       document.getElementById("weekMax").innerText = secondsToString(maxTime) + " on " + maxDate;
     });
   });
 
+document.getElementById("emailSubmit").addEventListener('click',function(){
+  let email = document.getElementById("email").value;
+  document.getElementById("toto").innerHTML=email;
+  
+})
