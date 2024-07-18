@@ -490,9 +490,9 @@ function secondsToString(seconds) {
           let categoryData = Object.values(categoryTime);
           let categoryColors = categoryLabels.map((_, index) => color[index % color.length]);
 
-          if (document.getElementById("category-day-chart").dataset.chartInstance) {
-            document.getElementById("category-day-chart").dataset.chartInstance.destroy();
-          }
+          //if (document.getElementById("category-day-chart").dataset.chartInstance) {
+          //  document.getElementById("category-day-chart").dataset.chartInstance.destroy();
+          //}
 
           let dayCategoryChart = new Chart(document.getElementById("category-day-chart"), {
             type: 'bar',
@@ -614,8 +614,4 @@ function secondsToString(seconds) {
     });
   });
 
-document.getElementById("emailSubmit").addEventListener('click',function(){
-  let email = document.getElementById("email").value;
-  document.getElementById("toto").innerHTML=email;
-  
-})
+
