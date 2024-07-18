@@ -1,13 +1,30 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import json
+
+
 def send_email(subject, body, to_email):
     # Email details
 
     from_email = "sammi.bgas@gmail.com"
-    from_password = "ask samyak for password"
+    from_password = "nswc gjid karp wnwo"
     smtp_server = "smtp.gmail.com"
     smtp_port = 587  # Usually 587 for TLS, 465 for SSL
+
+    web_usage = json.loads(body)
+
+    # Create a sorted list of tuples (site, usage)
+    sorted_web_usage = sorted(web_usage.items(), key=lambda x: x[1], reverse=True)
+
+    # Create a presentable text
+    email_text = "Web Usage Report:\n\n"
+    email_text += "Here is the summary of your web usage:\n\n"
+
+    for site, usage in sorted_web_usage:
+        email_text += f"{site}: {usage} Minutes\n"
+
+    email_text += "\nBest regards,\nYour Web Usage Tracker"
 
     # Create message
     msg = MIMEMultipart()
@@ -16,7 +33,7 @@ def send_email(subject, body, to_email):
     msg['Subject'] = subject
 
     # Add body to email
-    msg.attach(MIMEText(body, 'plain'))
+    msg.attach(MIMEText(email_text, 'plain'))
 
     try:
         # Connect to the server
@@ -26,13 +43,10 @@ def send_email(subject, body, to_email):
 
         # Send the email
         server.sendmail(from_email, to_email, msg.as_string())
-        print("Email sent successfully!")
+        print("1 Email sent successfully!")
 
     except Exception as e:
         print(f"Failed to send email: {e}")
 
     finally:
         server.quit()
-
-# Usage
-
