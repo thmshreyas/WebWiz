@@ -336,9 +336,9 @@ function secondsToString(seconds) {
         let categoryColors = categoryLabels.map((_, index) => color[index % color.length]);
         
 
-        if (document.getElementById("category-chart").dataset.chartInstance) {
-          document.getElementById("category-chart").dataset.chartInstance.destroy();
-        }
+        //if (document.getElementById("category-chart").dataset.chartInstance) {
+        //  document.getElementById("category-chart").dataset.chartInstance.destroy();
+        //}
 
         let todayCategoryChart = new Chart(document.getElementById("category-chart"), {
           type: 'bar',
