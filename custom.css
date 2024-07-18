@@ -13,7 +13,7 @@
     color: white !important;
 }
 
-#detailBtn,#detailBtn2,#dateSubmit{
+#detailBtn,#detailBtn2,#dateSubmit,#emailSubmit,#sendSubmit{
     background-color: #719fb0;
     color: #212529;
     transition: 1s;
@@ -57,4 +57,7 @@
 
 .container {
     padding: 10px 0;
+}
+li{
+    margin: 10px;
 }
