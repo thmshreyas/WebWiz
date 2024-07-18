@@ -1,0 +1,60 @@
+#todayTab,#dailyTab,#weekTab{
+    background-color: rgba(114,106,149,0.3);
+    color: black;
+    transition: 1s;
+}
+
+#todayTab:hover,#dailyTab:hover,#weekTab:hover{
+    background-color: rgba(53,31,57,0.5);
+}
+
+.nav-link.active{
+    background-color: rgba(53,31,57,0.75) !important;
+    color: white !important;
+}
+
+#detailBtn,#detailBtn2,#dateSubmit{
+    background-color: #719fb0;
+    color: #212529;
+    transition: 1s;
+}
+
+#detailBtn:hover,#detailBtn2:hover,#dateSubmit:hover{
+    background-color: #0d2e3a;
+    color: white;
+}
+
+.card-header{
+    background-color: #719fb0;
+    color: white;
+}
+
+#totalTimeToday, #totalTimeThatDay, #weekAvg, #weekMax {
+    font-weight: bold;
+    color: #264653;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+#category-chart, #category-day-chart {
+    margin-top: 20px;
+}
+
+.alert {
+    margin-top: 20px;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header.bg-warning, .card-header.bg-danger {
+    color: #fff;
+}
+
+.container {
+    padding: 10px 0;
+}
