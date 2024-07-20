@@ -47,16 +47,15 @@ function getDateString(nDate) {
 }
 
 function getDomain(tablink) {
-  if (tablink) {
-    let url = tablink[0].url;
-    return url.split("/")[2];
-  } else {
-    return null;
+  if (tablink && tablink.length > 0) {
+    let url = new URL(tablink[0].url);
+    return url.hostname;
   }
+  return null;
 }
 
 function updateTime() {
-  chrome.tabs.query({ "active": true, "lastFocusedWindow": true }, function (activeTab) {
+  chrome.tabs.query({ active: true, lastFocusedWindow: true }, function (activeTab) {
     let domain = getDomain(activeTab);
     if (isValidURL(domain)) {
       let today = new Date();
@@ -72,14 +71,14 @@ function updateTime() {
             storedObject[presentDate][domain] = timeSoFar;
             chrome.storage.local.set(storedObject, function () {
               console.log("Set " + domain + " at " + storedObject[presentDate][domain]);
-              chrome.action.setBadgeText({ 'text': secondsToString(timeSoFar, true) });
+              chrome.action.setBadgeText({ text: secondsToString(timeSoFar, true) });
             });
           } else {
             timeSoFar++;
             storedObject[presentDate][domain] = timeSoFar;
             chrome.storage.local.set(storedObject, function () {
               console.log("Set " + domain + " at " + storedObject[presentDate][domain]);
-              chrome.action.setBadgeText({ 'text': secondsToString(timeSoFar, true) });
+              chrome.action.setBadgeText({ text: secondsToString(timeSoFar, true) });
             });
           }
         } else {
@@ -88,32 +87,47 @@ function updateTime() {
           storedObject[presentDate][domain] = timeSoFar;
           chrome.storage.local.set(storedObject, function () {
             console.log("Set " + domain + " at " + storedObject[presentDate][domain]);
-            chrome.action.setBadgeText({ 'text': secondsToString(timeSoFar, true) });
+            chrome.action.setBadgeText({ text: secondsToString(timeSoFar, true) });
           });
         }
       });
     } else {
-      chrome.action.setBadgeText({ 'text': '' });
+      chrome.action.setBadgeText({ text: '' });
     }
   });
 }
 
 let intervalID;
 
-intervalID = setInterval(updateTime, 1000);
-setInterval(checkFocus, 500);
+function startUpdateTime() {
+  if (!intervalID) {
+    intervalID = setInterval(updateTime, 1000);
+  }
+}
+
+function stopUpdateTime() {
+  if (intervalID) {
+    clearInterval(intervalID);
+    intervalID = null;
+  }
+}
 
 function checkFocus() {
   chrome.windows.getCurrent(function (window) {
     if (window.focused) {
-      if (!intervalID) {
-        intervalID = setInterval(updateTime, 1000);
-      }
+      startUpdateTime();
     } else {
-      if (intervalID) {
-        clearInterval(intervalID);
-        intervalID = null;
-      }
+      stopUpdateTime();
     }
   });
 }
+
+chrome.runtime.onStartup.addListener(() => {
+  startUpdateTime();
+  setInterval(checkFocus, 500);
+});
+
+chrome.runtime.onInstalled.addListener(() => {
+  startUpdateTime();
+  setInterval(checkFocus, 500);
+});
