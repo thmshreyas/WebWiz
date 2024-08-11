@@ -7,8 +7,8 @@ import json
 def send_email(subject, body, to_email):
     # Email details
 
-    from_email = "sammi.bgas@gmail.com"
-    from_password = "nswc gjid karp wnwo"
+    from_email = "yourmail@gmail.com"
+    from_password = "password"
     smtp_server = "smtp.gmail.com"
     smtp_port = 587  # Usually 587 for TLS, 465 for SSL
 
